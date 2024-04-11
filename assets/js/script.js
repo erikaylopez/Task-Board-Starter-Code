@@ -88,9 +88,6 @@ const tasks = [
 // Render the task list with draggable cards
 function renderTaskList(tasks) {
     const taskList = document.getElementById('task-list');
-  
-    // Clear existing tasks
-    taskList.innerHTML = '';
 
     // Loop through each task and create a list item for it
     tasks.forEach(task => {
@@ -101,9 +98,7 @@ function renderTaskList(tasks) {
 
         taskList.appendChild(li);
     });
-  }
-  
-
+}
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
