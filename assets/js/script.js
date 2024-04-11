@@ -108,55 +108,57 @@ function renderTaskList(tasks) {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
- // Prevent the default form submission behavior
- event.preventDefault();
+    // Prevent the default form submission behavior
+    event.preventDefault();
 
- // Get the form input values
- const title = document.getElementById('task-title').value;
- const description = document.getElementById('task-description').value;
- const deadline = document.getElementById('task-deadline').value;
+    // Get the form input values
+    const title = document.getElementById('task-title').value;
+    const description = document.getElementById('task-description').value;
+    const deadline = document.getElementById('task-deadline').value;
 
- // Create a new task object
- const newTask = {
-     title: title,
-     description: description,
-     deadline: deadline
- };
+    // Create a new task object
+    const newTask = {
+            title: title,
+            description: description,
+            deadline: deadline
+    };
 
- // Add the new task to the tasks array
- tasks.push(newTask);
+    // Add the new task to the tasks array
+    tasks.push(newTask);
 
- // Render the updated task list
- renderTaskList(tasks);
+    // Render the updated task list
+    renderTaskList(tasks);
 
- // Clear the form inputs after adding the task
- document.getElementById('task-title').value = '';
- document.getElementById('task-description').value = '';
- document.getElementById('task-deadline').value = '';
+    // Save the updated task list and nextId to localStorage
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("nextId", JSON.stringify(nextId));
 }
 
-// Example task list
-let tasks = [
- { title: 'Task 1', description: 'Description for Task 1', deadline: '2022-12-31' },
- { title: 'Task 2', description: 'Description for Task 2', deadline: '2022-12-31' }
-];
-
-// Render the initial task list
-renderTaskList(tasks);
-
-// Add event listener to a form submit button
-const addTaskForm = document.getElementById('add-task-form');
-// Todo: create a function to handle deleting a task
-function handleDeleteTask(event){
-
-}
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
+    const taskId = ui.draggable.attr('id');
+    const newStatus = event.target.id;
 
+    // Update the status of the task
+    const taskIndex = tasks.findIndex(task => task.id === taskId);
+    if (taskIndex !== -1) {
+        tasks[taskIndex].status = newStatus;
+    }
+
+    // Render the updated task list
+    renderTaskList(tasks);
+
+    // Save the updated task list to localStorage
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-
+    renderTaskList(tasks);
+    $('#add-task-form').submit(handleAddTask);
+    $('.status-lane').droppable({
+        drop: handleDrop
+    });
+    $('#task-deadline').datepicker();
 });
