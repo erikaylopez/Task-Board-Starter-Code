@@ -1,3 +1,4 @@
+// import { renderTaskList } from './renderTaskList.js';
 // Retrieve tasks and nextId from localStorage
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
@@ -84,28 +85,22 @@ const tasks = [
     { title: 'Task 2', description: 'Description for Task 2', deadline: '2022-12-31' },
     { title: 'Task 3', description: 'Description for Task 3', deadline: '2022-12-31' }
 ];
-
 // Render the task list with draggable cards
 function renderTaskList(tasks) {
     const taskList = document.getElementById('task-list');
-  
-    // Clear existing tasks
-    taskList.innerHTML = '';
+
+
 
     // Loop through each task and create a list item for it
     tasks.forEach(task => {
         const li = document.createElement('li');
-        li.textContent = task.title; // Assuming each task has a 'title' property
 
         // You can add more details to the list item if needed
-        // For example: li.textContent = `${task.title} - ${task.deadline}`;
+        li.textContent = `${task.title} - ${task.description} - ${task.deadline}`;
 
         taskList.appendChild(li);
     });
   }
-  
-
-
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
     // Prevent the default form submission behavior
@@ -123,6 +118,7 @@ function handleAddTask(event){
             deadline: deadline
     };
 
+
     // Add the new task to the tasks array
     tasks.push(newTask);
 
@@ -131,7 +127,7 @@ function handleAddTask(event){
 
     // Save the updated task list and nextId to localStorage
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    localStorage.setItem("nextId", JSON.stringify(nextId));
+    localStorage.setItem("nextId", nextId);
 }
 
 
@@ -147,18 +143,24 @@ function handleDrop(event, ui) {
     }
 
     // Render the updated task list
-    renderTaskList(tasks);
+    renderTaskList();
 
     // Save the updated task list to localStorage
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
     renderTaskList(tasks);
-    $('#add-task-form').submit(handleAddTask);
-    $('.status-lane').droppable({
-        drop: handleDrop
+    document.getElementById('add-task-form').addEventListener('submit', handleAddTask);
+    const statusLanes = document.querySelectorAll('.status-lane');
+    statusLanes.forEach(lane => {
+        lane.addEventListener('drop', handleDrop);
     });
-    $('#task-deadline').datepicker();
+    const deadlineInput = document.getElementById('task-deadline');
+    deadlineInput.addEventListener('focus', function () {
+        this.type = 'date';
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+     
 });
