@@ -95,10 +95,9 @@ function renderTaskList(tasks) {
     // Loop through each task and create a list item for it
     tasks.forEach(task => {
         const li = document.createElement('li');
-        li.textContent = task.title; // Assuming each task has a 'title' property
 
         // You can add more details to the list item if needed
-        // For example: li.textContent = `${task.title} - ${task.deadline}`;
+        li.textContent = `${task.title} - ${task.description} - ${task.deadline}`;
 
         taskList.appendChild(li);
     });
